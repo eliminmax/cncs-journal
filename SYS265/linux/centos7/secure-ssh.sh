@@ -23,7 +23,7 @@ mkdir -p /home/${username}/.ssh
 if [ -f ../public-keys/id_rsa.pub ]; then
 	cat ../public-keys/id_rsa.pub >> /home/${username}/.ssh/authorized_keys
 else
-	curl https://raw.githubusercontent.com/eliminmax/cncs_journal/master/SYS265/public-keys/id_rsa.pub >> /home/${username}/.ssh/authorized_keys || exit 3
+	curl https://raw.githubusercontent.com/eliminmax/cncs_journal/master/SYS265/linux/public-keys/id_rsa.pub >> /home/${username}/.ssh/authorized_keys || exit 3
 fi
 
 cp /etc/ssh/sshd_config /etc/ssh/sshd_config.backup
