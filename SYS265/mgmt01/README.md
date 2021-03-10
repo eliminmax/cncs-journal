@@ -1,1 +1,1 @@
-hostname
+mgmt01-eli
