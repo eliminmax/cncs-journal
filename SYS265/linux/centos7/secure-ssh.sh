@@ -1,3 +1,4 @@
+#!/bin/bash
 # secure-ssh.sh
 # author eliminmax
 
