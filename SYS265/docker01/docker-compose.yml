@@ -38,4 +38,4 @@ services:
       - "POSTGRES_PASSWORD=${DB_PW}"
       - POSTGRES_DB=gitea
     volumes:
-      - ./postgres:/var/lib/postgresql/data
+      - ./postgres/data:/var/lib/postgresql/data
