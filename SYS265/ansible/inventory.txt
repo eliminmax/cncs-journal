@@ -1,0 +1,10 @@
+[nextcloud]
+ansible1-eli
+[webmin]
+ansible2-eli
+[windows]
+mgmt01-eli
+wks01-eli
+[windows:vars]
+ansible_shell_type=powershell
+ansible_connection=ssh

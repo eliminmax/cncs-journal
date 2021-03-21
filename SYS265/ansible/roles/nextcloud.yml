@@ -1,0 +1,18 @@
+---
+- name: nextcloud SYS265
+  hosts: nextcloud
+  become: true
+  roles:
+  - rbicker.nextcloud
+  vars:
+    nextcloud_domain: ansible1-eli.eli.local
+    nextcloud_use_https: false
+    nextcloud_upgrade: true
+    nextcloud_http_port: 8080 
+  tasks:
+  - name: add firewall rule
+    firewalld:
+      port: 8080/tcp
+      permanent: true
+      state: enabled
+

@@ -1,0 +1,16 @@
+---
+- name: webmin SYS265
+  hosts: webmin
+  become: true
+  vars:
+    install_utilities: false
+    firewalld_enable: true
+  roles:
+  - semuadmin.webmin
+
+  tasks:
+  - name: add firewall rule
+    firewalld:
+      port: 10000/tcp
+      permanent: true
+      state: enabled
