@@ -1,0 +1,58 @@
+set firewall name LAN-to-MGMT default-action 'drop'
+set firewall name LAN-to-MGMT enable-default-log
+set firewall name LAN-to-MGMT rule 1 action 'accept'
+set firewall name LAN-to-MGMT rule 1 state established 'enable'
+set firewall name LAN-to-MGMT rule 10 action 'accept'
+set firewall name LAN-to-MGMT rule 10 description 'Allow log01 access'
+set firewall name LAN-to-MGMT rule 10 destination address 'xxx.xxx.200.10'
+set firewall name LAN-to-MGMT rule 10 destination port '1514'
+set firewall name LAN-to-MGMT rule 10 protocol 'udp'
+set firewall name LAN-to-MGMT rule 15 action 'accept'
+set firewall name LAN-to-MGMT rule 15 description 'Allow ICMP to log01'
+set firewall name LAN-to-MGMT rule 15 destination address 'xxx.xxx.200.10'
+set firewall name LAN-to-MGMT rule 15 protocol 'icmp'
+set firewall name LAN-to-MGMT rule 20 action 'accept'
+set firewall name LAN-to-MGMT rule 20 description 'Allow connections to MGMT01'
+set firewall name LAN-to-MGMT rule 20 destination address 'xxx.xxx.200.11'
+set firewall name LAN-to-MGMT rule 20 source address 'xxx.xxx.150.50-xxx.xxx.150.100'
+set firewall name MGMT-to-LAN default-action 'accept'
+set interfaces ethernet eth0 address 'xxx.xxx.150.3/24'
+set interfaces ethernet eth0 description 'SEC350-LAN'
+set interfaces ethernet eth0 hw-id 'xx:xx:xx:xx:xx:21'
+set interfaces ethernet eth1 address 'xxx.xxx.200.2/28'
+set interfaces ethernet eth1 description 'SEC350-MGMT'
+set interfaces ethernet eth1 hw-id 'xx:xx:xx:xx:xx:b9'
+set interfaces loopback lo
+set protocols rip interface eth0
+set protocols rip network 'xxx.xxx.200.0/28'
+set protocols static route xxx.xxx.0.0/0 next-hop xxx.xxx.150.2
+set service dns forwarding allow-from 'xxx.xxx.200.0/28'
+set service dns forwarding listen-address 'xxx.xxx.200.2'
+set service dns forwarding system
+set service ssh listen-address 'xxx.xxx.0.0'
+set system config-management commit-revisions '100'
+set system conntrack modules ftp
+set system conntrack modules h323
+set system conntrack modules nfs
+set system conntrack modules pptp
+set system conntrack modules sip
+set system conntrack modules sqlnet
+set system conntrack modules tftp
+set system console device ttyS0 speed '115200'
+set system host-name xxxxxx
+set system login user xxxxxx authentication encrypted-password xxxxxx
+set system login user xxxxxx authentication public-keys xxxx@xxx.xxx key xxxxxx
+set system login user xxxxxx authentication public-keys xxxx@xxx.xxx type 'ssh-ed25519'
+set system name-server 'xxx.xxx.150.2'
+set system ntp server xxxxx.tld
+set system ntp server xxxxx.tld
+set system ntp server xxxxx.tld
+set system syslog global facility all level 'info'
+set system syslog global facility protocols level 'debug'
+set system syslog host xxx.xxx.200.10 facility kern level 'debug'
+set system syslog host xxx.xxx.200.10 format octet-counted
+set system syslog host xxx.xxx.200.10 port '1514'
+set zone-policy zone LAN from MGMT firewall name 'MGMT-to-LAN'
+set zone-policy zone LAN interface 'eth0'
+set zone-policy zone MGMT from LAN firewall name 'LAN-to-MGMT'
+set zone-policy zone MGMT interface 'eth1'

@@ -1,0 +1,141 @@
+set firewall name DMZ-to-LAN default-action 'drop'
+set firewall name DMZ-to-LAN enable-default-log
+set firewall name DMZ-to-LAN rule 1 action 'accept'
+set firewall name DMZ-to-LAN rule 1 state established 'enable'
+set firewall name DMZ-to-LAN rule 10 action 'accept'
+set firewall name DMZ-to-LAN rule 10 destination port '1514'
+set firewall name DMZ-to-LAN rule 10 protocol 'udp'
+set firewall name DMZ-to-WAN default-action 'drop'
+set firewall name DMZ-to-WAN enable-default-log
+set firewall name DMZ-to-WAN rule 1 action 'accept'
+set firewall name DMZ-to-WAN rule 1 state established 'enable'
+set firewall name DMZ-to-WAN rule 20 action 'accept'
+set firewall name DMZ-to-WAN rule 20 description 'Allow NTP traffic initialized by Web01'
+set firewall name DMZ-to-WAN rule 20 destination port '123'
+set firewall name DMZ-to-WAN rule 20 protocol 'udp'
+set firewall name DMZ-to-WAN rule 20 source address 'xxx.xxx.50.3'
+set firewall name LAN-to-DMZ default-action 'drop'
+set firewall name LAN-to-DMZ enable-default-log
+set firewall name LAN-to-DMZ rule 5 action 'accept'
+set firewall name LAN-to-DMZ rule 5 description 'allow all SSH from MGMT01'
+set firewall name LAN-to-DMZ rule 5 destination address 'xxx.xxx.50.0/29'
+set firewall name LAN-to-DMZ rule 5 destination port '22'
+set firewall name LAN-to-DMZ rule 5 protocol 'tcp'
+set firewall name LAN-to-DMZ rule 5 source address 'xxx.xxx.200.11'
+set firewall name LAN-to-DMZ rule 10 action 'accept'
+set firewall name LAN-to-DMZ rule 10 description 'Allow LAN access to Web01 HTTP'
+set firewall name LAN-to-DMZ rule 10 destination address 'xxx.xxx.50.3'
+set firewall name LAN-to-DMZ rule 10 destination port '80'
+set firewall name LAN-to-DMZ rule 10 protocol 'tcp'
+set firewall name LAN-to-DMZ rule 15 action 'accept'
+set firewall name LAN-to-DMZ rule 15 description 'Allow SSH access to Web01 from LAN'
+set firewall name LAN-to-DMZ rule 15 destination address 'xxx.xxx.50.3'
+set firewall name LAN-to-DMZ rule 15 destination port '22'
+set firewall name LAN-to-DMZ rule 15 protocol 'tcp'
+set firewall name LAN-to-WAN default-action 'drop'
+set firewall name LAN-to-WAN enable-default-log
+set firewall name LAN-to-WAN rule 1 action 'accept'
+set firewall name WAN-to-DMZ default-action 'drop'
+set firewall name WAN-to-DMZ enable-default-log
+set firewall name WAN-to-DMZ rule 10 action 'accept'
+set firewall name WAN-to-DMZ rule 10 description 'Allow WAN Access to Web01 HTTP'
+set firewall name WAN-to-DMZ rule 10 destination address 'xxx.xxx.50.3'
+set firewall name WAN-to-DMZ rule 10 destination port '80'
+set firewall name WAN-to-DMZ rule 10 protocol 'tcp'
+set firewall name WAN-to-DMZ rule 11 action 'accept'
+set firewall name WAN-to-DMZ rule 11 description 'Allow WAN access to Jump SSH'
+set firewall name WAN-to-DMZ rule 11 destination address 'xxx.xxx.50.4'
+set firewall name WAN-to-DMZ rule 11 destination port '22'
+set firewall name WAN-to-DMZ rule 11 protocol 'tcp'
+set firewall name WAN-to-DMZ rule 20 action 'accept'
+set firewall name WAN-to-DMZ rule 20 description 'Allow NTP response to Web01'
+set firewall name WAN-to-DMZ rule 20 destination address 'xxx.xxx.50.3'
+set firewall name WAN-to-DMZ rule 20 protocol 'udp'
+set firewall name WAN-to-DMZ rule 20 source port '123'
+set firewall name WAN-to-DMZ rule 20 state established 'enable'
+set firewall name WAN-to-LAN default-action 'drop'
+set firewall name WAN-to-LAN enable-default-log
+set firewall name WAN-to-LAN rule 1 action 'accept'
+set firewall name WAN-to-LAN rule 1 state established 'enable'
+set interfaces ethernet eth0 address 'xxx.xxx.17.126/24'
+set interfaces ethernet eth0 description 'SEC350-WAN'
+set interfaces ethernet eth0 hw-id 'xx:xx:xx:xx:xx:98'
+set interfaces ethernet eth1 address 'xxx.xxx.50.2/29'
+set interfaces ethernet eth1 description 'SEC350-DMZ-eli'
+set interfaces ethernet eth1 hw-id 'xx:xx:xx:xx:xx:0c'
+set interfaces ethernet eth2 address 'xxx.xxx.150.2/24'
+set interfaces ethernet eth2 description 'SEC350-LAN-eli'
+set interfaces ethernet eth2 hw-id 'xx:xx:xx:xx:xx:96'
+set interfaces loopback lo
+set nat destination rule 10 description 'HTTP->WEB01'
+set nat destination rule 10 destination port '80'
+set nat destination rule 10 inbound-interface 'eth0'
+set nat destination rule 10 protocol 'tcp'
+set nat destination rule 10 translation address 'xxx.xxx.50.3'
+set nat destination rule 10 translation port '80'
+set nat destination rule 15 description 'WAN SSH -> JUMP'
+set nat destination rule 15 destination port '22'
+set nat destination rule 15 inbound-interface 'eth0'
+set nat destination rule 15 protocol 'tcp'
+set nat destination rule 15 translation address 'xxx.xxx.50.4'
+set nat destination rule 15 translation port '22'
+set nat source rule 10 description 'NAT FROM DMZ to WAN'
+set nat source rule 10 outbound-interface 'eth0'
+set nat source rule 10 source address 'xxx.xxx.50.0/29'
+set nat source rule 10 translation address 'masquerade'
+set nat source rule 15 description 'NAT from LAN to WAN'
+set nat source rule 15 outbound-interface 'eth0'
+set nat source rule 15 source address 'xxx.xxx.150.0/24'
+set nat source rule 15 translation address 'masquerade'
+set nat source rule 20 description 'NAT FROM MGMT to WAN'
+set nat source rule 20 outbound-interface 'eth0'
+set nat source rule 20 source address 'xxx.xxx.200.0/28'
+set nat source rule 20 translation address 'masquerade'
+set protocols rip interface eth2
+set protocols rip network 'xxx.xxx.50.0/29'
+set protocols static route xxx.xxx.0.0/0 next-hop xxx.xxx.17.2
+set protocols static route xxx.xxx.200.0/28 next-hop xxx.xxx.150.2
+set protocols static route xxx.xxx.200.0/28 next-hop xxx.xxx.150.3
+set service dns forwarding allow-from 'xxx.xxx.50.0/29'
+set service dns forwarding allow-from 'xxx.xxx.150.0/24'
+set service dns forwarding listen-address 'xxx.xxx.50.2'
+set service dns forwarding listen-address 'xxx.xxx.150.2'
+set service dns forwarding system
+set service ssh listen-address 'xxx.xxx.150.2'
+set service ssh listen-address 'xxx.xxx.50.2'
+set service ssh loglevel 'verbose'
+set system config-management commit-revisions '100'
+set system conntrack modules ftp
+set system conntrack modules h323
+set system conntrack modules nfs
+set system conntrack modules pptp
+set system conntrack modules sip
+set system conntrack modules sqlnet
+set system conntrack modules tftp
+set system console device ttyS0 speed '115200'
+set system host-name xxxxxx
+set system login banner post-login 'If you are not Eli, things are bad. Anyway, welcome!'
+set system login banner pre-login 'Welcome to fw01-eli. Enjoy your stay, assuming you are Eli. Otherwise, begone'
+set system login user xxxxxx authentication encrypted-password xxxxxx
+set system login user xxxxxx authentication public-keys xxxx@xxx.xxx key xxxxxx
+set system login user xxxxxx authentication public-keys xxxx@xxx.xxx type 'ssh-ed25519'
+set system login user xxxxxx full-name xxxxxx
+set system login user xxxxxx authentication encrypted-password xxxxxx
+set system name-server 'xxx.xxx.17.2'
+set system ntp server xxxxx.tld
+set system ntp server xxxxx.tld
+set system ntp server xxxxx.tld
+set system syslog global facility all level 'info'
+set system syslog global facility protocols level 'debug'
+set system syslog host xxx.xxx.200.10 facility kern level 'debug'
+set system syslog host xxx.xxx.200.10 format octet-counted
+set system syslog host xxx.xxx.200.10 port '1514'
+set zone-policy zone DMZ from LAN firewall name 'LAN-to-DMZ'
+set zone-policy zone DMZ from WAN firewall name 'WAN-to-DMZ'
+set zone-policy zone DMZ interface 'eth1'
+set zone-policy zone LAN from DMZ firewall name 'DMZ-to-LAN'
+set zone-policy zone LAN from WAN firewall name 'WAN-to-LAN'
+set zone-policy zone LAN interface 'eth2'
+set zone-policy zone WAN from DMZ firewall name 'DMZ-to-WAN'
+set zone-policy zone WAN from LAN firewall name 'LAN-to-WAN'
+set zone-policy zone WAN interface 'eth0'
