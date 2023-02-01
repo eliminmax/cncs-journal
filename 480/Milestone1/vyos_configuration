@@ -18,3 +18,4 @@ set system login user eliminmax full-name 'Eli Array Minkoff'
 set system login user eliminmax home-directory '/home/eliminmax'
 set system name-server '192.168.4.4'
 set system name-server '192.168.4.5'
+delete system login user vyos
