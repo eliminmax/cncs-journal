@@ -1,0 +1,20 @@
+set interfaces ethernet eth0 address '192.168.7.41/24'
+set interfaces ethernet eth0 description 'CYBERLAB'
+set interfaces ethernet eth1 address '10.0.17.2/24'
+set interfaces ethernet eth1 description '480-WAN'
+set nat source rule 10 outbound-interface 'eth0'
+set nat source rule 10 source address '10.0.17.0/24'
+set nat source rule 10 translation address 'masquerade'
+set protocols static route 0.0.0.0/0 next-hop 192.168.7.250
+set service dns forwarding allow-from '10.0.17.0/24'
+set service dns forwarding listen-address '10.0.17.2'
+set service dns forwarding system
+set service ssh
+set system host-name '480-fw'
+set system login user eliminmax authentication encrypted-password '██████████████████████████████████████████████████████████████████████████████████████████████████████████'
+set system login user eliminmax authentication public-keys eliminmax@debian-xfce-wan key '████████████████████████████████████████████████████████████████████'
+set system login user eliminmax authentication public-keys eliminmax@debian-xfce-wan type 'ssh-ed25519'
+set system login user eliminmax full-name 'Eli Array Minkoff'
+set system login user eliminmax home-directory '/home/eliminmax'
+set system name-server '192.168.4.4'
+set system name-server '192.168.4.5'
