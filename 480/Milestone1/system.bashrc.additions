@@ -1,0 +1,45 @@
+# Setup for prompt
+case "$(tput colors)" in 
+	256|16777216)
+		__prompt_user_host_color_code='38;5;126'
+		__prompt_directory_color_code='38;5;61'
+		__prompt_prev_okay_color_code='38;5;46'
+		__prompt_prev_fail_color_code='38;5;124'
+		__prompt_priv_user_color_code='38;5;180'
+		;;
+	8)
+		__prompt_user_host_color_code='31'
+		__prompt_directory_color_code='34'
+		__prompt_prev_okay_color_code='32'
+		__prompt_prev_fail_color_code='31'
+		__prompt_priv_user_color_code='33'
+		;;
+	*)
+		__prompt_user_host_color_code='0;1'
+		__prompt_directory_color_code='0;1'
+		__prompt_prev_okay_color_code='0;1'
+		__prompt_prev_fail_color_code='0;1'
+		__prompt_priv_user_color_code='7'
+		;;
+esac
+__prompt_prev_exit_color_code() {
+	local prev_exit=$?
+	case $prev_exit in
+		0) printf '%s' "$__prompt_prev_okay_color_code" ;;
+		*) printf '%s' "$__prompt_prev_fail_color_code" ;;
+	esac
+	return $prev_exit
+}
+
+if [ $EUID -eq 0 ]; then
+	PS1='\[\e[0;1m\][\[\e[$(__prompt_prev_exit_color_code)m\]$?\[\e[39m\]] \[\e[${__prompt_priv_user_color_code}m\]{\u}\[\e[${__prompt_user_host_color_code}m\]@\h\[\e[39m\]:\[\e[${__prompt_directory_color_code}m\]\w\[\e[39m\]\$ \[\e[m\]'
+else
+	PS1='\[\e[0;1m\][\[\e[$(__prompt_prev_exit_color_code)m\]$?\[\e[39m\]] \[\e[${__prompt_user_host_color_code}m\]\u@\h\[\e[39m\]:\[\e[${__prompt_directory_color_code}m\]\w\[\e[39m\]\$ \[\e[m\]'
+fi
+
+# assorted shell options
+shopt -s lithist # save multi-line history with embedded newlines
+shopt -s autocd  # if given a directory name as a command, treat it as an implicit `cd`
+
+
+# vi:ft=sh:noet:ai:ts=4:sts=4:sw=4

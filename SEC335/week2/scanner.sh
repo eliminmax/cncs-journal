@@ -71,7 +71,7 @@ cmd_exists 'getopt'
 cmd_exists 'sed'
 cmd_exists 'cat'
 cmd_exists 'timeout'
-
+cmd_exists 'xargs'
 
 # the version of getopt(1) provided by util-linux exits with error code 4 when
 # called with -T, allowing us to make sure its the right version
