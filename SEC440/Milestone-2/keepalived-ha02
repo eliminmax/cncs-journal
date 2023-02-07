@@ -35,4 +35,4 @@ vrrp_instance LB_VIP {
     }
 }
 
-# adapted https://kifarunix.com/configure-highly-available-haproxy-with-keepalived-on-ubuntu-20-04/#ipforwardingandnon-localbind kcvK8ahvi9s8BDo7YWBi
+# adapted https://kifarunix.com/configure-highly-available-haproxy-with-keepalived-on-ubuntu-20-04/#ipforwardingandnon-localbind
