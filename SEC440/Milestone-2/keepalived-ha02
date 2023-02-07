@@ -1,0 +1,38 @@
+# vi:ft=conf:et:sw=4:ts=4:sts=4
+
+global_defs {
+    enable_script_security
+    script_user keepalived
+}
+
+vrrp_script chk_haproxy {
+    script "/usr/bin/killall -0 haproxy"
+    interval 2
+    weight 2
+}
+
+vrrp_instance LB_VIP {
+    interface ens160
+    state BACKUP
+    priority 99
+    virtual_router_id 51
+
+    authentication {
+        auth_type AH
+        auth_pass ████████████████████
+    }
+    unicast_src_ip 10.0.6.12
+    unicast_peer {
+        10.0.6.11
+   }
+
+    virtual_ipaddress {
+        10.0.6.10
+    }
+
+    track_script {
+        chk_haproxy
+    }
+}
+
+# adapted https://kifarunix.com/configure-highly-available-haproxy-with-keepalived-on-ubuntu-20-04/#ipforwardingandnon-localbind kcvK8ahvi9s8BDo7YWBi
