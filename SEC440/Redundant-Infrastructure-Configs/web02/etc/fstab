@@ -1,0 +1,14 @@
+
+#
+# /etc/fstab
+# Created by anaconda on ████████████████████████
+#
+# Accessible filesystems, by reference, are maintained under '/dev/disk'
+# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
+#
+/dev/mapper/centos-root /                       xfs     defaults        0 0
+UUID=████████████████████████████████████ /boot                   xfs     defaults        0 0
+/dev/mapper/centos-swap swap                    swap    defaults        0 0
+
+# nextcloud glusterfs
+u1-eli:gv0 /var/www/html/nextcloud	glusterfs	defaults,_netdev 0 0

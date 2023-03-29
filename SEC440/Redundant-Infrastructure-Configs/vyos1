@@ -1,0 +1,70 @@
+set high-availability vrrp group LAN-VRRP address 10.0.5.1/24
+set high-availability vrrp group LAN-VRRP interface 'eth1'
+set high-availability vrrp group LAN-VRRP priority '200'
+set high-availability vrrp group LAN-VRRP vrid '20'
+set high-availability vrrp group OPT-VRRP address 10.0.6.1/24
+set high-availability vrrp group OPT-VRRP interface 'eth2'
+set high-availability vrrp group OPT-VRRP priority '200'
+set high-availability vrrp group OPT-VRRP vrid '30'
+set high-availability vrrp group WAN-VRRP address 10.0.17.105/24
+set high-availability vrrp group WAN-VRRP interface 'eth0'
+set high-availability vrrp group WAN-VRRP priority '200'
+set high-availability vrrp group WAN-VRRP vrid '10'
+set interfaces ethernet eth0 address '10.0.17.15/24'
+set interfaces ethernet eth0 description 'SEC440-01-WAN'
+set interfaces ethernet eth0 hw-id '█████████████████'
+set interfaces ethernet eth1 address '10.0.5.2/24'
+set interfaces ethernet eth1 description 'SEC440-01-LAN-eli.minkoff'
+set interfaces ethernet eth1 hw-id '█████████████████'
+set interfaces ethernet eth2 address '10.0.6.2/24'
+set interfaces ethernet eth2 description 'SEC440-01-OPT-eli.minkoff'
+set interfaces ethernet eth2 hw-id '█████████████████'
+set interfaces loopback lo
+set nat destination rule 10 description 'Forward HTTP from WAN to haproxy'
+set nat destination rule 10 destination address '10.0.17.105'
+set nat destination rule 10 destination port '80'
+set nat destination rule 10 inbound-interface 'eth0'
+set nat destination rule 10 protocol 'tcp'
+set nat destination rule 10 translation address '10.0.6.10'
+set nat source rule 10 description 'NAT from LAN to WAN'
+set nat source rule 10 outbound-interface 'eth0'
+set nat source rule 10 source address '10.0.5.0/24'
+set nat source rule 10 translation address 'masquerade'
+set nat source rule 15 description 'NAT from OPT to WAN'
+set nat source rule 15 outbound-interface 'eth0'
+set nat source rule 15 source address '10.0.6.0/24'
+set nat source rule 15 translation address 'masquerade'
+set protocols static route 0.0.0.0/0 next-hop 10.0.17.2
+set service dns forwarding allow-from '10.0.5.0/24'
+set service dns forwarding allow-from '10.0.6.0/24'
+set service dns forwarding listen-address '10.0.5.2'
+set service dns forwarding listen-address '10.0.5.1'
+set service dns forwarding listen-address '10.0.6.1'
+set service dns forwarding listen-address '10.0.6.2'
+set service dns forwarding system
+set service ssh listen-address '0.0.0.0'
+set system config-management commit-revisions '100'
+set system conntrack modules ftp
+set system conntrack modules h323
+set system conntrack modules nfs
+set system conntrack modules pptp
+set system conntrack modules sip
+set system conntrack modules sqlnet
+set system conntrack modules tftp
+set system console device ttyS0 speed '115200'
+set system host-name 'vyos1.eli.local'
+set system login user eliminmax authentication encrypted-password '██████████████████████████████████████████████████████████████████████████████████████████████████████████'
+set system login user eliminmax authentication public-keys eliminmax@xubuntu-lan-eli key '████████████████████████████████████████████████████████████████████'
+set system login user eliminmax authentication public-keys eliminmax@xubuntu-lan-eli type 'ssh-ed25519'
+set system login user eliminmax authentication public-keys eliminmax@xubuntu-wan-eli key '████████████████████████████████████████████████████████████████████'
+set system login user eliminmax authentication public-keys eliminmax@xubuntu-wan-eli type 'ssh-ed25519'
+set system login user eliminmax full-name 'Eli Array Minkoff'
+set system login user eliminmax home-directory '/home/eliminmax'
+set system name-server '10.0.17.2'
+set system ntp server time1.vyos.net
+set system ntp server time2.vyos.net
+set system ntp server time3.vyos.net
+set system option ctrl-alt-delete 'ignore'
+set system syslog global facility all level 'info'
+set system syslog global facility protocols level 'debug'
+set system time-zone 'America/New_York'
