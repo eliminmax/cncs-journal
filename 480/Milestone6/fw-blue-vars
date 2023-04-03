@@ -1,0 +1,9 @@
+[vyos]
+10.0.17.102 hostname=blue1-fw mac=00:50:56:██:██:██ wan_ip=10.0.17.200 lan_ip=10.0.5.2 lan=10.0.5.0/24 name_server=10.0.17.4 gateway=10.0.17.2
+
+[vyos:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_connection=network_cli
+ansible_network_os=vyos
+ansible_user=vyos
+ansible_ssh_host_key_checking=false

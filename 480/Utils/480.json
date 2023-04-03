@@ -1,0 +1,6 @@
+{
+    "vcenter_server": "vcenter.eli.local",
+    "vm_folder": "base",
+    "esxi_host": "super3.cyber.local",
+    "default_network": "480-WAN"
+}

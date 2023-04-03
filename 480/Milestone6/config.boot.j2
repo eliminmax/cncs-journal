@@ -1,0 +1,99 @@
+interfaces {
+    ethernet eth0 {
+        address {{ wan_ip }}/24
+    }
+    ethernet eth1 {
+        address {{ lan_ip }}/24
+    }
+    loopback lo {
+    }
+}
+nat {
+    source {
+        rule 10 {
+            outbound-interface eth0
+            source {
+                address {{ lan }}
+            }
+            translation {
+                address masquerade
+            }
+        }
+    }
+}
+protocols {
+    static {
+        route 0.0.0.0/0 {
+            next-hop {{ gateway }} {
+            }
+        }
+    }
+}
+service {
+    dns {
+        forwarding {
+            allow-from {{ lan }}
+            listen-address {{ lan_ip }}
+            name-server {{ name_server }}
+            system
+        }
+    }
+    ssh {
+        listen-address 0.0.0.0
+    }
+}
+system {
+    config-management {
+        commit-revisions 100
+    }
+    console {
+        device ttyS0 {
+            speed 115200
+        }
+    }
+    host-name {{ hostname }}
+    login {                                          
+        user eliminmax {                             
+            authentication {
+                encrypted-password ██████████████████████████████████████████████████████████████████████████████████████████████████████████
+                public-keys eliminmax@array-ctrl {
+                    key AAAAC3NzaC1lZDI1NTE5AAAAIBSr1PZNYI6JTo85vzTDhbsSsMwrx4abeTcEwO50IeHS
+                    type ssh-ed25519
+                }                                    
+                public-keys eliminmax@array-lenny {
+                    key AAAAC3NzaC1lZDI1NTE5AAAAII5w1lUVJkKqxvmgV23/3m9hdMS8hqswCi9oR7mYNqqt
+                    type ssh-ed25519
+                }                                    
+                public-keys eliminmax@debian-xfce-wan {
+                    key AAAAC3NzaC1lZDI1NTE5AAAAIEtXG+Tek5F/lTgivtcHQntZEKB+esEmGAofG/vcfV0z
+                    type ssh-ed25519
+                }                                    
+                public-keys eli.minkoff-adm@debian-xfce-wan {
+                    key AAAAC3NzaC1lZDI1NTE5AAAAIFY7O/IMUzYHgpLEGDS4FizQRN01hpuyEEtmdegDT8W1
+                    type ssh-ed25519
+                }                                    
+            }                                        
+            full-name "Eli Array Minkoff"
+            home-directory /home/eliminmax
+        }                                            
+    }
+    name-server {{ name_server }}
+    ntp {
+        server 0.pool.ntp.org {
+        }
+        server 1.pool.ntp.org {
+        }
+        server 2.pool.ntp.org {
+        }
+    }
+    syslog {
+        global {
+            facility all {
+                level info
+            }
+            facility protocols {
+                level debug
+            }
+        }
+    }
+}
