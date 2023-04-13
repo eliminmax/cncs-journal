@@ -1,0 +1,9 @@
+[vyos]
+10.0.17.200 hostname=blue1-fw lan_ip=10.0.5.2 lan=10.0.5.0/24 dhcp_network_name=blue.local dhcp_range_name=blue-dhcp dhcp_range_start=10.0.5.50 dhcp_range_stop=10.0.5.75
+
+[vyos:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_connection=network_cli
+ansible_network_os=vyos
+ansible_user=eliminmax
+ansible_ssh_host_key_checking=false

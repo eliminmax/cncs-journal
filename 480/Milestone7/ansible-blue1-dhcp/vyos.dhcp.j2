@@ -1,0 +1,15 @@
+service {
+    dhcp-server {
+        listen-address {{ lan_ip }}
+        shared-network-name {{ dhcp_network_name }} {
+            subnet {{ lan }} {
+                default-router {{ lan_ip }}
+                name-server {{ lan_ip }}
+                range {{ dhcp_range_name }} {
+                    start {{ dhcp_range_start }}
+                    stop {{ dhcp_range_stop }}
+                }
+            }
+        }
+    }
+}

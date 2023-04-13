@@ -1,0 +1,8 @@
+{
+    "VIServer": "vcenter.eli.local",
+    "SourceVMName": "ubuntu.22.04.server.base",
+    "SourceSnapshotName": "Base",
+    "TargetVMNames": ["ubuntu1", "ubuntu2"],
+    "TargetVMDestinationName": "Blue",
+    "TargetNetworkName": "BLUEX-lan"
+}

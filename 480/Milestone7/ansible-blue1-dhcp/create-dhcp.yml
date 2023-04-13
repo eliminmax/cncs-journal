@@ -1,0 +1,15 @@
+---
+- name: Enable DHCP range
+  hosts: vyos
+  tasks:
+    - name: Configure VyOS system
+      vyos.vyos.vyos_config:
+        backup: true
+        backup_options:
+          filename: "{{ hostname }}-pre-dhcp-ansible.cfg"
+        src: vyos.dhcp.j2
+    - name: Take backup
+      vyos.vyos.vyos_config:
+        backup: true
+        backup_options:
+          filename: "{{ hostname }}-post-dhcp-ansible.cfg"

@@ -1,0 +1,14 @@
+---
+network:
+  version: 2
+  ethernets:
+    "{{ if_name }}":
+      dhcp4: false
+      dhcp6: false
+      addresses:
+        - "{{ lan_ip }}/{{ lan_netmask }}"
+      routes:
+        - to: default
+          via: "{{ lan_gateway }}"
+      nameservers:
+        addresses: ["{{ lan_nameserver }}"]

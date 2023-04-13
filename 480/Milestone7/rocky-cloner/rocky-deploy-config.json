@@ -1,0 +1,8 @@
+{
+    "VIServer": "vcenter.eli.local",
+    "SourceVMName": "rocky.9.base",
+    "SourceSnapshotName": "Base",
+    "TargetVMNames": ["rocky1", "rocky2", "rocky3"],
+    "TargetVMDestinationName": "Blue",
+    "TargetNetworkName": "BLUEX-lan"
+}

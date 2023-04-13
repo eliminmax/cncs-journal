@@ -1,0 +1,78 @@
+---
+- name: Configure Rocky VMs
+  hosts: rocky
+  become: true
+  tasks:
+
+    - name: Create deployer user
+      ansible.builtin.user:
+        name: deployer
+        state: present
+        password: '!' # this is an invalid password hash, so password login is impossible
+
+    - name: Add local SSH keys
+      ansible.posix.authorized_key:
+        user: deployer
+        state: present
+        key: "{{ lookup('file', './local_keyfile') }}"
+
+    - name: Add sudoer file
+      community.general.sudoers:
+        name: deployer-sudo
+        user: deployer
+        commands: ALL
+        state: present
+        nopassword: true
+
+    - name: Set Hostname
+      ansible.builtin.hostname:
+        name: "{{ hostname }}"
+
+    - name: Ensure NetworkManager is running
+      ansible.builtin.service:
+        name: NetworkManager
+        state: started
+        enabled: true
+
+    - name: Set Static IP
+      community.general.nmcli:
+        conn_name: "{{ if_name }}"
+        ifname: "{{ if_name }}"
+        type: ethernet
+        dns4: ["{{ lan_nameserver }}"]
+        gw4: "{{ lan_gateway }}"
+        ip4: ["{{ lan_ip }}/{{ lan_netmask }}"]
+        state: present
+
+    - name: Create Script to Restart Network
+      ansible.builtin.template:
+        src: reset-network.sh.j2
+        dest: /tmp/reset-network.sh
+        owner: root
+        group: root
+        mode: '0744'
+        backup: yes
+
+# Thanks to the following for the upcoming trickery:
+# https://unix.stackexchange.com/a/655691
+# https://stackoverflow.com/a/61299910
+# https://www.reddit.com/r/ansible/comments/mmcx8l/comment/gtrbuvj/
+# and the Ansible docs
+
+    - name: Restart networking
+      ansible.builtin.command: /bin/sh /tmp/reset-network.sh
+      async: 300
+      poll: 0
+      register: reset_ip
+
+    - name: Change Ansible IP Address
+      ansible.builtin.set_fact:
+        ansible_host: "{{ lan_ip }}"
+
+    - name: Reconnect
+      ansible.builtin.async_status:
+        jid: "{{ reset_ip.ansible_job_id }}"
+      register: job_result
+      until: job_result.finished
+      retries: 30
+      delay: 5

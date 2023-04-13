@@ -1,0 +1,21 @@
+---
+- hosts: vyos
+  tasks:
+    - name: Configure VyOS system
+      vyos.vyos.vyos_config:
+        backup: yes
+        backup_options:
+          filename: 'vyos-pre-ansible.cfg'
+        src: config.boot.j2
+    - name: Remove unwanted defaults
+      vyos.vyos.vyos_config:
+        backup: yes
+        backup_options:
+          filename: 'vyos-mid-ansible.cfg'
+        lines:
+          - delete system login user vyos authentication
+    - name: Back up resulting configuration
+      vyos.vyos.vyos_config:
+        backup: yes
+        backup_options:
+          filename: 'vyos-post-ansible.cfg'

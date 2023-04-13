@@ -1,0 +1,4 @@
+#!/bin/sh
+
+nmcli connection down {{ if_name }}
+nmcli connection up {{ if_name }}
